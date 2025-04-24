@@ -8,85 +8,45 @@
 typedef std::vector <cv::Point> Contour;
 
 
+namespace ipa {
+	// bilateral filter parameters
+	int filter_size = 15;
+	int sigma_color = 150;
+	int sigma_space = 75;
 
-
-// utility function that rotates 'img' by step*90°
-// step = 0 --> no rotation
-// step = 1 --> 90° CW rotation
-// step = 2 --> 180° CW rotation
-// step = 3 --> 270° CW rotation
-cv::Mat rotate90(cv::Mat img, int step)
-{
-	cv::Mat img_rot;
-
-	// adjust step in case it is negative
-	if (step < 0)
-		step = -step;
-	// adjust step in case it exceeds 4
-	step = step % 4;
-
-	// no rotation
-	if (step == 0)
-		img_rot = img;
-	// 90° CW rotation
-	else if (step == 1)
-	{
-		cv::transpose(img, img_rot);
-		cv::flip(img_rot, img_rot, 1);
-	}
-	// 180° CW rotation
-	else if (step == 2)
-		cv::flip(img, img_rot, -1);
-	// 270° CW rotation
-	else if (step == 3)
-	{
-		cv::transpose(img, img_rot);
-		cv::flip(img_rot, img_rot, 0);
-	}
-
-	return img_rot;
+}
+template <typename Container, typename UnaryPredicate>
+void erase_if(Container& c, UnaryPredicate pred) {
+	c.erase(std::remove_if(c.begin(), c.end(), pred), c.end());
 }
 
-cv::Mat skeletonize(cv::Mat img)
+// Given an image it returns the contours found with Otsu or Triangle Binarization
+std::vector <Contour> contour_finder(cv::Mat img,bool Otsu) 
 {
-	cv::Mat thinning_base_SE1 = (cv::Mat_<int>(3, 3) <<
-		-1, -1, -1,
-		0, 1, 0,
-		1, 1, 1);
-
-	cv::Mat thinning_base_SE2 = (cv::Mat_<int>(3, 3) <<
-		0, -1, -1,
-		1, 1, -1,
-		1, 1, 0);
-
-	std::vector < cv::Mat > thinning_SEs;
-	thinning_SEs.push_back(thinning_base_SE1);
-	thinning_SEs.push_back(rotate90(thinning_base_SE1, 1));
-	thinning_SEs.push_back(rotate90(thinning_base_SE1, 2));
-	thinning_SEs.push_back(rotate90(thinning_base_SE1, 3));
-	thinning_SEs.push_back(thinning_base_SE2);
-	thinning_SEs.push_back(rotate90(thinning_base_SE2, 1));
-	thinning_SEs.push_back(rotate90(thinning_base_SE2, 2));
-	thinning_SEs.push_back(rotate90(thinning_base_SE2, 3));
-
-	cv::Mat prevImg;
-	cv::Mat currImg = img.clone();
-	do
+	if (Otsu)
 	{
-		prevImg = currImg.clone();
+		int threshold = ucas::getOtsuAutoThreshold(ucas::histogram(img));
+		cv::threshold(img, img, threshold, 255, cv::THRESH_BINARY);
+		//ucas::imshow("Binarized image", channel);
 
-		for (auto SE : thinning_SEs)
-		{
-			cv::Mat hitMissRes;
-			cv::morphologyEx(currImg, hitMissRes, cv::MORPH_HITMISS, SE);
-			currImg -= hitMissRes;
-		}
+		std::vector <Contour> objects;
+		cv::findContours(img, objects, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+		erase_if(objects, [](Contour& c) {
+			return cv::contourArea(c) < 500;});
+		return objects;
+	}
+	else
+	{
+		int threshold = ucas::getTriangleAutoThreshold(ucas::histogram(img));
+		cv::threshold(img, img, threshold, 255, cv::THRESH_BINARY);
+		//ucas::imshow("Binarized image", channel);
 
-		//ipa::imshow("Thinning", currImg, true);
-
-	} while (cv::countNonZero(cv::abs(prevImg - currImg)));
-
-	return currImg;
+		std::vector <Contour> objects;
+		cv::findContours(img, objects, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+		erase_if(objects, [](Contour& c) {
+			return cv::contourArea(c) < 500;});
+		return objects;
+	}
 }
 
 int main()
@@ -96,171 +56,63 @@ int main()
 	try
 	{
 		
-		cv::Mat img = cv::imread(std::string(EXAMPLE_IMAGES_PATH) + "/dataset/Tomato___Bacterial_spot/Bacterial_spot_0.JPG",cv::IMREAD_GRAYSCALE);
+		cv::Mat img = cv::imread(std::string(EXAMPLE_IMAGES_PATH) + "/dataset/Tomato___Bacterial_spot/Bacterial_spot_0.JPG");
 		if (!img.data)
 			throw ucas::Error("Cannot open image");
 
-		float magFactor = 1.0f;
-
+		ucas::imshow("Original image", img);
 		
+		// 1 - DENOISING
+		
+		// bilateral filtering
 
-		cv::pyrMeanShiftFiltering(img, img, 20, 15, 0);
+		cv::Mat denoised_img=img.clone();
+		cv::bilateralFilter(img, denoised_img, ipa::filter_size, ipa::sigma_color, ipa::sigma_space);
 
-		ucas::imshow("Mean shift", img);
+		// 2 - SEGMENTATION
+		// 2.1 - Leaf is clearly visible in HSV color space (in particular in the first two channels)
+		// -> change color space 
+		cv::cvtColor(denoised_img, denoised_img, cv::COLOR_BGR2HSV);
 
-		// PHASE 1: watershed-based segmentation
-		// step 1-1: color 2 gray conversion
-		cv::Mat imgGray;
-		cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
+		std::vector <cv::Mat> imgChannels(3);
+		cv::split(denoised_img, imgChannels);
+		
+		//ucas::imshow("First channel", imgChannels[0]);
+		//ucas::imshow("Second channel", imgChannels[1]);
+		//ucas::imshow("Third channel", imgChannels[2]);
+		
+		
+		// The difference is considered in order to filter out other components
+		cv::Mat channel=imgChannels[0]-imgChannels[1];
+		// The sum is considered in order to clearly see the leaf 
+		cv::Mat channel_wl= imgChannels[0] + imgChannels[1];
 
-		// step 1-2: get internal (coin) markers
-		// step 1-2-1: binarize the image
-		cv::Mat imgBinarized;
-		int T_otsu = ucas::getTriangleAutoThreshold(ucas::histogram(imgGray));
-		cv::threshold(imgGray, imgBinarized, T_otsu, 255, cv::THRESH_BINARY_INV);
-		ucas::imshow("Binarized image", imgBinarized, true, magFactor);
+		//ucas::imshow("Channel", channel);
+		cv::Mat img_clone = img.clone();
+		
+		// 2.2 - Contours finding and drawing
+		std::vector<Contour> objects = contour_finder(channel, true);
+			
+		std::vector<Contour> objects_wl = contour_finder (channel_wl, true);
 
-		// step 1-2-2: get internal markers
-		// step 1-2-2-1: closing with a small SE to eliminate black binarization artifacts
-		cv::Mat imgBinarizedClosed;
-		cv::morphologyEx(imgBinarized, imgBinarizedClosed, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)));
-		ipa::imshow("After closing", imgBinarizedClosed, true, magFactor);
-		// step 1-2-2-2: erosion with a big SE (smaller than the smallest coin) 
-		// to eliminate white bridges between coins generated by the previous closing
-		cv::Mat imgBinarizedClosedEroded;
-		cv::morphologyEx(imgBinarizedClosed, imgBinarizedClosedEroded, cv::MORPH_ERODE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(125, 125)));
-		ipa::imshow("After erosion", imgBinarizedClosedEroded, true, magFactor);
-		// step 1-2-2-3: generate internal markers 
-		std::vector< Contour> objects;
-		cv::findContours(imgBinarizedClosedEroded, objects, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
-		cv::Mat markers(img.rows, img.cols, CV_32S, cv::Scalar(0));
 		for (int k = 0; k < objects.size(); k++)
-			cv::drawContours(markers, objects, k, cv::Scalar(k + 1), cv::FILLED);
-		// step 1-2-2-4: visualize internal markers (optional)
-		cv::Mat markersImg(img.rows, img.cols, CV_8UC3, cv::Scalar(0, 0, 0));
-		for (int k = 0; k < objects.size(); k++)
-			cv::drawContours(markersImg, objects, k, cv::Scalar(rand() % 256, rand() % 256, rand() % 256), cv::FILLED);
-		cv::addWeighted(img, 0.3, markersImg, 0.7, 0, markersImg);
-		ipa::imshow("Markers overlaid on img", markersImg, true, magFactor);
-		//ucas::imshow("Markers image", markers);
+			cv::drawContours(img, objects, k, cv::Scalar(0, 0,256), 1, cv::LINE_AA);
 
+		for (int k = 0; k < objects_wl.size(); k++)
+			cv::drawContours(img_clone, objects_wl, k, cv::Scalar(0, 0, 256), 1, cv::LINE_AA);
 
-		// step 1-3: get external markers
-		cv::Mat imgBinarizedClosedDilated;
-		cv::dilate(imgBinarizedClosed, imgBinarizedClosedDilated,
-			cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(7, 7)));
-		cv::Mat externalMarkersImg = imgBinarizedClosedDilated - imgBinarizedClosed;
-		ipa::imshow("External markers", externalMarkersImg, true, magFactor);
-		// step 1-3-0: ensure external markers are not touching the objects
-		// contours by using skeletonization which will yield only the centerlines
-		// of contours
-		externalMarkersImg = skeletonize(externalMarkersImg);
-		ipa::imshow("External markers skeleton", externalMarkersImg, true, magFactor);
-		// step 1-3-1: display external markers overlaid on the original image
-		markersImg.setTo(cv::Scalar(255, 255, 255), externalMarkersImg);
-		ipa::imshow("External markers overlaid", markersImg, true, magFactor);
-		// step 1-3-2: draw external markers on markers to be inputted to the watershed
-		markers.setTo(cv::Scalar(objects.size() + 1), externalMarkersImg);
+		ucas::imshow("Contourn", img);
 
-		// PHASE 2: coin segmentation
+		ucas::imshow("Contourn with leaf", img_clone);
 
-		// step 2-1: watershed
-		cv::watershed(img, markers);
-		// output will be
-		// -1 for dams
-		// integers from 1 to number of markers that have grown
+		// In certain cases the channel and channel_wl contain partial leaf's contours and external contours
+		// -> considering the difference leaves only the leaf
+		cv::Mat difference = img - img_clone;
+		cv::cvtColor(difference, difference, cv::COLOR_BGR2GRAY);
+		int triangle = ucas::getOtsuAutoThreshold(ucas::histogram(difference));
+		cv::threshold(difference, difference, triangle, 255, cv::THRESH_BINARY);
 
-		// step 2-2: transformations to enhance dams pixels
-		// *** CAN BE SKIPPED, shown here only for teaching/debugging purposes ***
-		// pixels * 255
-		// -1 * 255 = -255
-		// (1...#objects) * 255 >= 255
-		cv::Mat damsImg = markers.clone();
-		damsImg *= 255;
-		// pixels += 255
-		// -255 + 255 = 0
-		// (objects >= 255) + 255 >= 510
-		damsImg += 255;
-		// --> convert to 8U with OpenCV saturation arithmetic
-		// 0 --> 0
-		// (objects >= 510) --> 255
-		damsImg.convertTo(damsImg, CV_8U);
-		// invert
-		// 0 (dams) ---> 255
-		// 255 (objects) --> 0
-		damsImg = 255 - damsImg;
-
-		// step 2-3: visualize dams
-		img.setTo(cv::Scalar(255, 255, 255), damsImg);
-		ipa::imshow("Dams overlaid on img", img, true, magFactor);
-
-		// step 2-4: iterate over individual objects to
-		// - check they have been correctly separated
-		// - to prepare for further processing/analysis (coins recognition)
-		cv::Mat overlaidImg = img.clone();
-		std::vector <int> coinsDiameters;
-		for (int objId = 1; objId <= objects.size(); objId++)
-		{
-			cv::Mat ithObjectImg;
-			cv::inRange(markers, cv::Scalar(objId), cv::Scalar(objId), ithObjectImg);
-
-			overlaidImg.setTo(cv::Scalar(rand() % 256, rand() % 256, rand() % 256), ithObjectImg);
-			//cv::Mat resultImg = img.clone();
-			//resultImg.setTo(cv::Scalar(255, 0, 0), ithObjectImg);
-			//ipa::imshow("i-th coin object", resultImg, true);
-
-			std::vector<Contour> objects;
-			cv::findContours(ithObjectImg, objects, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
-			coinsDiameters.push_back(cv::boundingRect(objects[0]).width);
-		}
-		ipa::imshow("All coins objects", overlaidImg, true, magFactor);
-
-		std::sort(coinsDiameters.begin(), coinsDiameters.end());
-		for (auto diameter : coinsDiameters)
-			printf("%d ", diameter);
-
-
-		// PHASE 3: coin value estimation
-		// based on K-means clustering
-
-		// Number of clusters
-		int K = 8;
-
-		// Convert diameters to a single-column Mat of floats
-		cv::Mat data(coinsDiameters.size(), 1, CV_32F);
-		for (size_t i = 0; i < coinsDiameters.size(); ++i)
-		{
-			data.at<float>(static_cast<int>(i), 0) = static_cast<float>(coinsDiameters[i]);
-		}
-
-		// Prepare output structures
-		cv::Mat labels;       // will store the cluster label for each point
-		cv::Mat centers;      // will store the center for each cluster
-		int attempts = 3;     // how many times to run k-means
-		cv::TermCriteria criteria(cv::TermCriteria::MAX_ITER, 10, 1);
-
-		// Perform k-means clustering
-		cv::kmeans(
-			data,         // data to cluster
-			K,            // number of clusters
-			labels,       // output labels
-			criteria,     // termination criteria
-			attempts,     // number of attempts
-			cv::KMEANS_PP_CENTERS,
-			centers       // output cluster centers
-		);
-
-		// Print the centers
-		std::cout << "Cluster centers:\n" << centers << std::endl << std::endl;
-
-		// Print which cluster each diameter was assigned to
-		for (int i = 0; i < data.rows; ++i)
-		{
-			float diameterValue = data.at<float>(i, 0);
-			int clusterIdx = labels.at<int>(i, 0);
-			std::cout << "Diameter: " << diameterValue
-				<< "  ->  Cluster: " << clusterIdx << std::endl;
-		}
+		ucas::imshow("Difference", difference);
 
 
 		return EXIT_SUCCESS;
