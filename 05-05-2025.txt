@@ -1,0 +1,212 @@
+// include aia and ucas utility functions
+#include "ipaConfig.h"
+#include "ucasConfig.h"
+
+// include my project functions
+#include "functions.h"
+
+#include <opencv2/opencv.hpp>
+
+namespace ipa {
+	// bilateral filter parameters
+	int filter_size = 15;
+	int sigma_color = 150;
+	int sigma_space = 75;
+}
+namespace {
+	std::string path = "/dataset/Tomato___Early_blight/Early_blight_";
+}
+void NlMeansParameters(int sigma, float& h, int& N, int& S)
+{
+	h = 3.0f;		// OpenCV default value
+	N = 7;			// OpenCV default value
+	S = 21;			// OpenCV default value
+	if (sigma > 0 && sigma <= 15)
+	{
+		h = 0.40f * sigma;
+		N = 3;
+		S = 21;
+	}
+	if (sigma > 15 && sigma <= 30)
+	{
+		h = 0.40f * sigma;
+		N = 5;
+		S = 21;
+	}
+	if (sigma > 30 && sigma <= 45)
+	{
+		h = 0.35f * sigma;
+		N = 7;
+		S = 35;
+	}
+	if (sigma > 45 && sigma <= 75)
+	{
+		h = 0.35f * sigma;
+		N = 9;
+		S = 35;
+	}
+	if (sigma > 75 && sigma <= 100)
+	{
+		h = 0.30f * sigma;
+		N = 11;
+		S = 35;
+	}
+}
+
+cv::Mat gradientImageGray(const cv::Mat& frameGray)
+{
+	CV_Assert(frameGray.channels() == 1); // Ensure input is grayscale
+
+	// Sobel filters
+	cv::Mat sobelX = (cv::Mat_<float>(3, 3) <<
+		-1, 0, 1,
+		-2, 0, 2,
+		-1, 0, 1);
+	cv::Mat sobelY = (cv::Mat_<float>(3, 3) <<
+		-1, -2, -1,
+		0, 0, 0,
+		1, 2, 1);
+
+	cv::Mat dx, dy;
+	// Convolution along x-axis and y-axis
+	cv::filter2D(frameGray, dx, CV_32F, sobelX);
+	cv::filter2D(frameGray, dy, CV_32F, sobelY);
+
+	cv::Mat gradMag;
+	cv::magnitude(dx, dy, gradMag);
+
+	// Normalize to [0, 255]
+	cv::normalize(gradMag, gradMag, 0, 255, cv::NORM_MINMAX);
+
+	// Convert to 8-bit image for visualization
+	gradMag.convertTo(gradMag, CV_8U);
+
+	return 3 * gradMag;
+}
+
+typedef std::vector < cv::Point > Contour;
+
+int main()
+{
+	try
+	{
+		for (int i = 0; i <= 159; i++) {
+			// Load the Leaf image
+			cv::Mat img = cv::imread(std::string(EXAMPLE_IMAGES_PATH) + "/dataset/Tomato___Early_blight/Early_blight_"+std::to_string(i)+ ".jpg", cv::IMREAD_UNCHANGED);
+			if (!img.data)
+				throw ipa::error("Cannot load image");
+			cv::Mat imgOrig = img.clone();
+			printf("Image loaded: dims = %d x %d, channels = %d, bitdepth = %d\n", img.rows, img.cols, img.channels(), ipa::bitdepth(img.depth()));
+
+			ipa::imshow("Leaf image", img);
+
+			cv::Mat hsv;
+			cv::cvtColor(img, hsv, cv::COLOR_BGR2HSV);
+
+			ipa::imshow("Leaf image in HSV", hsv);
+
+			cv::Mat greenMask, yellowMask, brownMask;
+
+			cv::inRange(hsv, cv::Scalar(20, 20, 20), cv::Scalar(85, 255, 255), greenMask);   // Verde
+			cv::inRange(hsv, cv::Scalar(20, 40, 40), cv::Scalar(30, 255, 255), yellowMask);  // Giallo
+			cv::inRange(hsv, cv::Scalar(10, 50, 100), cv::Scalar(20, 255, 200), brownMask);   // Marrone
+
+			cv::Mat fullMask = greenMask | yellowMask | brownMask;
+
+			ipa::imshow("Mask", fullMask);
+
+			cv::Mat bgmodel, fgmodel;
+
+			cv::Mat mask(img.size(), CV_8UC1, cv::Scalar(cv::GC_BGD));
+			mask.setTo(cv::GC_FGD, fullMask);
+
+
+			cv::morphologyEx(fullMask, fullMask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(9, 9)));
+
+			ipa::imshow("After closing", fullMask);
+
+			cv::Mat maskCopy = fullMask.clone();
+
+			for (int y = 0; y < maskCopy.rows; y++)
+			{
+				unsigned char* yRow = maskCopy.ptr<unsigned char>(y);
+
+				for (int x = 0; x < maskCopy.cols; x++)
+				{
+					if (yRow[x] == 0)
+						yRow[x] = 255;
+					else
+						yRow[x] = 0;
+				}
+			}
+
+			ipa::imshow("inverted img", maskCopy);
+
+
+			std::vector<Contour> objects;
+			cv::findContours(maskCopy, objects, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+
+			float areaLim = 500;
+
+			for (int k = 0; k < objects.size(); k++)
+			{
+				float area = cv::contourArea(objects[k]);
+				if (area < areaLim)
+					cv::drawContours(maskCopy, std::vector<std::vector<cv::Point>>{objects[k]}, -1, cv::Scalar(0), cv::FILLED);
+			}
+
+			cv::morphologyEx(maskCopy, maskCopy, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)));
+
+			ipa::imshow("Image Analysis results: ", maskCopy);
+
+			std::vector<Contour> leafCounour;
+			cv::findContours(maskCopy, leafCounour, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+
+			for (int k = 0; k < leafCounour.size(); k++)
+			{
+				cv::drawContours(img, leafCounour, -1, cv::Scalar(0, 0, 255), -1, cv::LINE_8);
+			}
+
+			ipa::imshow("Image Analysis results: ", img);
+
+			// Binarization fo the red mask
+			for (int y = 0; y < img.rows; y++)
+			{
+				cv::Vec3b* yRow = img.ptr<cv::Vec3b>(y); // every pixel is a BGR triplet
+
+				for (int x = 0; x < img.cols; x++)
+				{
+					cv::Vec3b& pixel = yRow[x];
+
+					if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255)
+					{
+						pixel = cv::Vec3b(0, 0, 0); // binarization
+					}
+					else
+					{
+						pixel = cv::Vec3b(255, 255, 255); // binarization
+					}
+				}
+			}
+
+			// first segmentation usign the mask
+			cv::Mat firstSegmentation;
+			imgOrig.copyTo(firstSegmentation, img);
+			ucas::imshow("First segmentation", firstSegmentation);
+
+
+
+			
+		}
+		return EXIT_SUCCESS;
+	}
+	catch (ipa::error& ex)
+	{
+		std::cout << "EXCEPTION thrown by " << ex.getSource() << "source :\n\t|=> " << ex.what() << std::endl;
+	}
+	catch (ucas::Error& ex)
+	{
+		std::cout << "EXCEPTION thrown by unknown source :\n\t|=> " << ex.what() << std::endl;
+	}
+}
+
