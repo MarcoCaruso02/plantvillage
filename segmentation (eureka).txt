@@ -14,7 +14,7 @@ namespace ipa {
 	int sigma_space = 75;
 }
 namespace {
-	std::string path = "/dataset/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_";
+	std::string path = "/dataset/Tomato___Bacterial_spot/Bacterial_spot_";
 }
 void NlMeansParameters(int sigma, float& h, int& N, int& S)
 {
@@ -90,7 +90,7 @@ int main()
 {
 	try
 	{
-		for (int i = 0;i <= 159;i++) {
+		for (int i = 0; i <= 159; i++) {
 			// Load the Leaf image
 			cv::Mat img = cv::imread(std::string(EXAMPLE_IMAGES_PATH) + path + std::to_string(i) + ".jpg", cv::IMREAD_UNCHANGED);
 			if (!img.data)
@@ -102,7 +102,7 @@ int main()
 			cv::bilateralFilter(img, leafImg, ipa::filter_size, ipa::sigma_color, ipa::sigma_space);
 
 
-			ipa::imshow("Leaf image", img);
+			//ipa::imshow("Leaf image", img);
 
 			cv::Mat hsv;
 			cv::cvtColor(leafImg, hsv, cv::COLOR_BGR2HSV);
@@ -111,7 +111,7 @@ int main()
 
 			// Creation of three masks which cover the main leaves' colors
 			cv::Mat greenMask, yellowMask, brownMask;
-			
+
 			cv::inRange(hsv, cv::Scalar(20, 20, 20), cv::Scalar(90, 255, 255), greenMask);   // Verde
 			cv::inRange(hsv, cv::Scalar(20, 40, 40), cv::Scalar(30, 255, 255), yellowMask);  // Giallo
 			cv::inRange(hsv, cv::Scalar(10, 20, 20), cv::Scalar(20, 255, 200), brownMask);   // Marrone
@@ -121,7 +121,7 @@ int main()
 
 			// 7th and 10th classes have very brwon-ish background and green leaves --> ignore brown mask
 
-			if (path == "/dataset/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_"||path== "/dataset/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_")
+			if (path == "/dataset/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_" || path == "/dataset/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_")
 				fullMask = greenMask | yellowMask;
 			//ipa::imshow("Mask", fullMask);
 
@@ -171,7 +171,7 @@ int main()
 
 				for (int x = 0; x < img.cols; x++)
 				{
-					cv::Vec3b& pixel = yRow[x]; 
+					cv::Vec3b& pixel = yRow[x];
 
 					if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255)
 					{
@@ -187,41 +187,49 @@ int main()
 			// first segmentation usign the mask
 			cv::Mat firstSegmentation;
 			imgOrig.copyTo(firstSegmentation, img);
-			ucas::imshow("First segmentation", firstSegmentation);
+			//ucas::imshow("First segmentation", firstSegmentation);
 
 
-			
+
 			// Channel a of Lab ignores background and shadow pixels
 			std::vector<cv::Mat> channels(3);
-			cv::cvtColor(firstSegmentation, firstSegmentation, cv::COLOR_BGR2Lab);
+			cv::cvtColor(firstSegmentation, firstSegmentation, cv::COLOR_BGR2HSV);
 			cv::split(firstSegmentation, channels);
-			
+
 			/*ucas::imshow("First channel", channels[0]);
 			ucas::imshow("Second channel", channels[1]);
 			ucas::imshow("Third channel", channels[2]);*/
 
-			cv::Mat difference =channels[1];
-			ucas::imshow("Difference", difference);
+			cv::Mat difference = channels[1];
+			//ucas::imshow("Difference", difference);
 
 			// Binarization of the a channel
-			int triangle = ucas::getTriangleAutoThreshold(ucas::histogram(difference));
-			cv::threshold(difference, difference, triangle, 255, cv::THRESH_BINARY_INV);
+			int triangle = ucas::getOtsuAutoThreshold(ucas::histogram(difference));
+			cv::threshold(difference, difference, triangle, 255, cv::THRESH_BINARY);
 
-			ucas::imshow("Second mask", difference);
-			cv::cvtColor(firstSegmentation, firstSegmentation, cv::COLOR_Lab2BGR);
+			//ucas::imshow("Second mask", difference);
+			cv::cvtColor(firstSegmentation, firstSegmentation, cv::COLOR_HSV2BGR);
 
 			// Second segmentation
 			cv::Mat secondSegmentation;
 			imgOrig.copyTo(secondSegmentation, difference);
-			ucas::imshow("Second segmentation", secondSegmentation);
-			
+			//ucas::imshow("Second segmentation", secondSegmentation);
+
 			// We get the contours of the second segmentation in order to create a mask to be applied 
 			// - on the original image (this avoids losing information)
 			std::vector<Contour> leafCountour2;
 			cv::cvtColor(secondSegmentation, secondSegmentation, cv::COLOR_BGR2GRAY);
 			triangle = ucas::getOtsuAutoThreshold(ucas::histogram(secondSegmentation));
-			ucas::imshow("Final mask", secondSegmentation);
 			cv::threshold(secondSegmentation, secondSegmentation, triangle, 255, cv::THRESH_BINARY);
+
+			//ucas::imshow("Final mask ", secondSegmentation);
+
+
+			cv::morphologyEx(secondSegmentation, secondSegmentation, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(15, 15)));
+
+
+			//ucas::imshow("Final mask CLOSING", secondSegmentation);
+
 			cv::findContours(secondSegmentation, leafCountour2, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
 			for (int k = 0; k < leafCountour2.size(); k++)
 			{
@@ -229,20 +237,20 @@ int main()
 			}
 			for (int y = 0; y < img.rows; y++)
 			{
-				cv::Vec3b* yRow = img.ptr<cv::Vec3b>(y); 
+				cv::Vec3b* yRow = img.ptr<cv::Vec3b>(y);
 
 				for (int x = 0; x < img.cols; x++)
 				{
-					cv::Vec3b& pixel = yRow[x]; 
+					cv::Vec3b& pixel = yRow[x];
 
 					if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255)
 					{
-						
-						pixel = cv::Vec3b(255, 255, 255); 
+
+						pixel = cv::Vec3b(255, 255, 255);
 					}
 					else
 					{
-						pixel = cv::Vec3b(0, 0, 0); 
+						pixel = cv::Vec3b(0, 0, 0);
 					}
 				}
 			}
@@ -250,10 +258,10 @@ int main()
 			// Final segmentation
 			cv::Mat finalSegmentation;
 			imgOrig.copyTo(finalSegmentation, img);
-			ucas::imshow("Final segmentation", finalSegmentation);
+			//ucas::imshow("Final segmentation", finalSegmentation);
 
 			// Segmentation save
-			cv::imwrite("C:/Users/Fede02/Desktop/risultati/7a_classe/" + std::to_string(i) + ".JPG", finalSegmentation);
+			cv::imwrite("C:/Users/fedes/Desktop/risultati/1a_classe/" + std::to_string(i) + ".JPG", finalSegmentation);
 		}
 		return EXIT_SUCCESS;
 	}
