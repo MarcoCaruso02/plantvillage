@@ -13,9 +13,12 @@ namespace ipa {
 	int sigma_color = 150;
 	int sigma_space = 75;
 }
+/*
 namespace {
 	std::string path = "/dataset/Tomato___Bacterial_spot/Bacterial_spot_";
-}
+}*/
+std::string root = "C:/Users/marco/Desktop/University/MAGISTRALE/1oANNO/2oSemestre/Image_Processing_Analysis/Codes/plants/dataset_less";
+
 #include <opencv2/opencv.hpp>
 #include <vector>
 
@@ -70,8 +73,15 @@ cv::Mat segmentGraphCutFromBGRMasks(const cv::Mat& image,
 				resultForeground.emplace_back(x, y);
 		}
 	}*/
-	ucas::imshow("Graph cut", mask);
-	return mask;
+
+	cv::Mat binMask = (mask == cv::GC_FGD) | (mask == cv::GC_PR_FGD);
+	cv::Mat result;
+	image.copyTo(result, binMask);
+
+	//ipa::imshow("Graph cut result", result);
+
+	//ucas::imshow("Graph cut", mask);
+	return result;
 }
 
 void NlMeansParameters(int sigma, float& h, int& N, int& S)
@@ -148,14 +158,16 @@ int main()
 {
 	try
 	{
-		for (int i = 0; i <= 159; i++) {
+		for (int i = 59; i <= 159; i++) {
 			// Load the Leaf image
-			cv::Mat img = cv::imread(std::string(EXAMPLE_IMAGES_PATH) + path + std::to_string(i) + ".jpg", cv::IMREAD_UNCHANGED);
+			std::string path = root + "/Tomato___Bacterial_spot/Bacterial_spot_";
+			cv::Mat img = cv::imread(path + std::to_string(i) + ".jpg", cv::IMREAD_UNCHANGED);
 			if (!img.data)
 				throw ipa::error("Cannot load image");
 			cv::Mat imgOrig = img.clone();
 			printf("Image loaded: dims = %d x %d, channels = %d, bitdepth = %d\n", img.rows, img.cols, img.channels(), ipa::bitdepth(img.depth()));
 
+			//cv::imshow("Original", img);
 			cv::Mat leafImg;
 			cv::bilateralFilter(img, leafImg, ipa::filter_size, ipa::sigma_color, ipa::sigma_space);
 
@@ -167,21 +179,24 @@ int main()
 
 			//ipa::imshow("Leaf image in HSV", hsv);
 
-			// Creation of three masks which cover the main leaves' colors
 			cv::Mat greenMask, yellowMask, brownMask;
 
 			cv::inRange(hsv, cv::Scalar(20, 20, 20), cv::Scalar(90, 255, 255), greenMask);   // Verde
 			cv::inRange(hsv, cv::Scalar(20, 40, 40), cv::Scalar(30, 255, 255), yellowMask);  // Giallo
-			cv::inRange(hsv, cv::Scalar(10, 20, 20), cv::Scalar(20, 255, 200), brownMask);   // Marrone
-
+			cv::inRange(hsv, cv::Scalar(10, 50, 50), cv::Scalar(20, 255, 200), brownMask);   // Marrone
 
 			cv::Mat fullMask = greenMask | yellowMask | brownMask;
 
+
 			// 7th and 10th classes have very brwon-ish background and green leaves --> ignore brown mask
 
-			if (path == "/dataset/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_" || path == "/dataset/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_")
+			//if (path == "/dataset/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_" || path == "/dataset/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_")
+			if (path == root + "/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_" || path == root + "/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_") {
 				fullMask = greenMask | yellowMask;
-			//ipa::imshow("Mask", fullMask);
+				printf("Special case 7 or 10\n");
+				//ipa::imshow("Mask", fullMask);
+			}
+
 
 			cv::Mat bgmodel, fgmodel;
 
@@ -214,14 +229,14 @@ int main()
 			cv::Mat forMask = maskCopy.clone();
 			cv::Mat backMask = 255 - forMask;
 
-			ucas::imshow("Foregorund mask before erode", forMask);
-			ucas::imshow("Background mask before erode", backMask);
+			//ucas::imshow("Foregorund mask before erode", forMask);
+			//ucas::imshow("Background mask before erode", backMask);
 
-			cv::morphologyEx(forMask, forMask, cv::MORPH_ERODE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(27, 27)));
-			cv::morphologyEx(backMask, backMask, cv::MORPH_ERODE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(19, 19)));
+			cv::morphologyEx(forMask, forMask, cv::MORPH_ERODE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)));
+			cv::morphologyEx(backMask, backMask, cv::MORPH_DILATE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)));
 
-			ucas::imshow("Foregorund mask after erode", forMask);
-			ucas::imshow("Background mask after erode", backMask);
+			//ucas::imshow("Foregorund mask after erode", forMask);
+			//ucas::imshow("Background mask after erode", backMask);
 
 			cv::Mat fMask, bMask;
 
@@ -241,34 +256,36 @@ int main()
 			}
 
 			// Binarization fo the red mask
-			for (int y = 0; y < img.rows; y++)
+			for (int y = 0; y < grabcutImg.rows; y++)
 			{
-				cv::Vec3b* yRow = img.ptr<cv::Vec3b>(y); // every pixel is a BGR triplet
+				cv::Vec3b* yRow = grabcutImg.ptr<cv::Vec3b>(y); // every pixel is a BGR triplet
 
-				for (int x = 0; x < img.cols; x++)
+				for (int x = 0; x < grabcutImg.cols; x++)
 				{
 					cv::Vec3b& pixel = yRow[x];
 
-					if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255)
+					if (pixel[0] != 0 && pixel[1] != 0 && pixel[2] != 0)
 					{
 						pixel = cv::Vec3b(255, 255, 255); // binarization
 					}
-					else
-					{
-						pixel = cv::Vec3b(0, 0, 0); // binarization
-					}
 				}
 			}
+			leafCountour.clear();
+			cv::findContours(maskCopy, leafCountour, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+			for (int k = 0; k < leafCountour.size(); k++)
+			{
+				cv::drawContours(imgOrig, leafCountour, k, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
+			}
 
-			// first segmentation usign the mask
-			cv::Mat firstSegmentation;
-			imgOrig.copyTo(firstSegmentation, img);
-			ucas::imshow("First segmentation", firstSegmentation);
-
-			cv::imwrite("C:/Users/fedes/Desktop/risultati/1a_classe_grab/" + std::to_string(i) + ".JPG", firstSegmentation);
+			//ucas::imshow("Comparison", imgOrig);
+			cv::imwrite("C:/Users/marco/Desktop/Result_graph/1a/" + std::to_string(i) + ".JPG", grabcutImg);
+			cv::imwrite("C:/Users/marco/Desktop/Comparison_graph/1a/" + std::to_string(i) + ".JPG", imgOrig);
 
 
-			
+
+
+
+
 		}
 		return EXIT_SUCCESS;
 	}
@@ -281,4 +298,5 @@ int main()
 		std::cout << "EXCEPTION thrown by unknown source :\n\t|=> " << ex.what() << std::endl;
 	}
 }
+
 
