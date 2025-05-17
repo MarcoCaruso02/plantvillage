@@ -1,0 +1,25 @@
+#TIPI DI ESPERIMENTI
+
+Dataset feature D0: RF & LBP su H e S & Nodenoise 
+	A1 No feature selection =>  DONE: RF-D0-A1-B
+	A2 feature selection k best, k=10 k=5 => DONE: RF-D0-A2(5)-B; RF-D0-A2(10)-B
+	A3 feature extraction pca, 10, 5, 15 => DONE: RF-D0-A3(5)-B; RF-D0-A3(10)-B; RF-D0-A3(15)-B
+		
+		B:Split 80:20
+		B:Cross validation 5 fold 
+	
+Dataset feature D0: SVM & LBP su H e S & Nodenoise 
+	A1 No feature selection =>  DONE: SVM-D0-A1-B
+	A2 feature selection k best, k=10 k=5 => 
+	A3 feature extraction pca, 10, 5 => 
+		
+		B:Split 80:20
+		B:Cross validation 5 fold 
+	
+Dataset feature D0: XGBOOST & LBP su H e S & Nodenoise 
+	A1 No feature selection =>  DONE: XGBOOST-D0-A1-B
+	A2 feature selection k best, k=10 k=5 => 
+	A3 feature extraction pca, 10, 5 => 
+		
+		B:Split 80:20
+		B:Cross validation 5 fold 
