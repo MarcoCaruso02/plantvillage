@@ -19,7 +19,7 @@ Dataset feature D0: SVM & LBP su H e S & Nodenoise
 Dataset feature D0: XGBOOST & LBP su H e S & Nodenoise 
 	A1 No feature selection =>  DONE: XGBOOST-D0-A1-B
 	A2 feature selection k best, k=10 k=5 => 
-	A3 feature extraction pca, 10, 5, 15 => .....XGBOOST-D0-A3(15)-B
+	A3 feature extraction pca, 10, 5, 15 => .....XGBOOST-D0-A3(15)-B, XGBOOST-D0-A3(10)-B
 		
 		B:Split 80:20
 		B:Cross validation 5 fold 
