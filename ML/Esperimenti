@@ -10,8 +10,8 @@ Dataset feature D0: RF & LBP su H e S & Nodenoise
 	
 Dataset feature D0: SVM & LBP su H e S & Nodenoise 
 	A1 No feature selection =>  DONE: SVM-D0-A1-B
-	A2 feature selection k best, k=10 k=5 => 
-	A3 feature extraction pca, 10, 5 => 
+	A2 feature selection k best, k=10 k=5 k=15 => DONE: SVM-D0-A2(10)-B,SVM-D0-A2(5)-B,SVM-D0-A2(15)-B 
+	A3 feature extraction pca, 10, 5, 15 => DONE: SVM-D0-A3(10)-B,SVM-D0-A3(5)-B,SVM-D0-A3(15)-B 
 		
 		B:Split 80:20
 		B:Cross validation 5 fold 
@@ -19,7 +19,7 @@ Dataset feature D0: SVM & LBP su H e S & Nodenoise
 Dataset feature D0: XGBOOST & LBP su H e S & Nodenoise 
 	A1 No feature selection =>  DONE: XGBOOST-D0-A1-B
 	A2 feature selection k best, k=10 k=5 => 
-	A3 feature extraction pca, 10, 5 => 
+	A3 feature extraction pca, 10, 5, 15 => 
 		
 		B:Split 80:20
 		B:Cross validation 5 fold 
