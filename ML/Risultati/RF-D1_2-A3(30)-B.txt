@@ -1,0 +1,33 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: featuresALLLBP_denoised.csv
+Target column: label
+Normalizzazione: none
+Feature selection: False (70 features)
+PCA: PCA(n_components=30) (30 componenti)
+Modello: random_forest
+Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+RISULTATI:
+Accuracy-oneshot: 0.809
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.78      0.78      0.78        32
+           1       0.83      0.91      0.87        32
+           2       0.70      0.81      0.75        32
+           3       0.82      0.72      0.77        32
+           4       0.78      0.66      0.71        32
+           5       0.76      0.81      0.79        32
+           6       0.88      0.88      0.88        32
+           7       0.94      0.91      0.92        32
+
+    accuracy                           0.81       256
+   macro avg       0.81      0.81      0.81       256
+weighted avg       0.81      0.81      0.81       256
+Result cv-scores: [0.8359375  0.828125   0.79296875 0.81640625 0.78125   ]
+Result cv-average: 0.811

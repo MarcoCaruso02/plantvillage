@@ -1,0 +1,105 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: featuresALLLBP_denoised.csv
+Target column: label
+Normalizzazione: none
+Feature selection: True (70 features)
+PCA: False (15 componenti)
+Modello: random_forest
+Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+Feature selezionate:
+- 8LBP3h
+- 8LBP4h
+- 8LBP5h
+- 8LBP7h
+- 8LBP8h
+- 8LBP0s
+- 8LBP1s
+- 8LBP2s
+- 8LBP3s
+- 8LBP4s
+- 8LBP5s
+- 8LBP6s
+- 8LBP7s
+- 8LBP8s
+- 8LBP9s
+- 12LBP2h
+- 12LBP5h
+- 12LBP6h
+- 12LBP7h
+- 12LBP8h
+- 12LBP9h
+- 12LBP10h
+- 12LBP11h
+- 12LBP12h
+- 12LBP13h
+- 12LBP0s
+- 12LBP1s
+- 12LBP2s
+- 12LBP3s
+- 12LBP4s
+- 12LBP5s
+- 12LBP6s
+- 12LBP7s
+- 12LBP8s
+- 12LBP9s
+- 12LBP10s
+- 12LBP11s
+- 12LBP12s
+- 12LBP13s
+- 16LBP5h
+- 16LBP6h
+- 16LBP7h
+- 16LBP8h
+- 16LBP9h
+- 16LBP10h
+- 16LBP11h
+- 16LBP12h
+- 16LBP13h
+- 16LBP14h
+- 16LBP15h
+- 16LBP16h
+- 16LBP17h
+- 16LBP0s
+- 16LBP1s
+- 16LBP2s
+- 16LBP3s
+- 16LBP4s
+- 16LBP5s
+- 16LBP6s
+- 16LBP7s
+- 16LBP8s
+- 16LBP9s
+- 16LBP10s
+- 16LBP11s
+- 16LBP12s
+- 16LBP13s
+- 16LBP14s
+- 16LBP15s
+- 16LBP16s
+- 16LBP17s
+
+RISULTATI:
+Accuracy-oneshot: 0.734
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.74      0.81      0.78        32
+           1       0.79      0.97      0.87        32
+           2       0.61      0.69      0.65        32
+           3       0.80      0.50      0.62        32
+           4       0.70      0.72      0.71        32
+           5       0.77      0.72      0.74        32
+           6       0.76      0.81      0.79        32
+           7       0.72      0.66      0.69        32
+
+    accuracy                           0.73       256
+   macro avg       0.74      0.73      0.73       256
+weighted avg       0.74      0.73      0.73       256
+Result cv-scores: [0.71875    0.67578125 0.66015625 0.71484375 0.67578125]
+Result cv-average: 0.689
