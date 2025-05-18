@@ -1,0 +1,45 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: features_denoised_20.csv
+Target column: label
+Normalizzazione: none
+Feature selection: True (10 features)
+PCA: False (25 componenti)
+Modello: xgboost
+Best par: {'booster': 'gbtree', 'gamma': 1, 'learning_rate': 0.1, 'max_depth': 6, 'min_child_weight': 2, 'n_estimators': 50}Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+Feature selezionate:
+- LBP0S
+- LBP1S
+- LBP2S
+- LBP3S
+- LBP4S
+- LBP5S
+- LBP6S
+- LBP7S
+- LBP8S
+- LBP9S
+
+RISULTATI:
+Accuracy-oneshot: 0.520
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.74      0.78      0.76        32
+           1       0.70      0.72      0.71        32
+           2       0.43      0.66      0.52        32
+           3       0.29      0.12      0.17        32
+           4       0.33      0.38      0.35        32
+           5       0.38      0.41      0.39        32
+           6       0.47      0.50      0.48        32
+           7       0.86      0.59      0.70        32
+
+    accuracy                           0.52       256
+   macro avg       0.52      0.52      0.51       256
+weighted avg       0.52      0.52      0.51       256
+Result cv-scores: [0.58203125 0.546875   0.5234375  0.51953125 0.54296875]
+Result cv-average: 0.543
