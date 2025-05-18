@@ -70,11 +70,11 @@ Esperimenti:
 		A1:
 			XGBOOST-D0_1-A1-B DONE 
 			///////////////
-			XGBOOST-D0_2-A1-B
+			XGBOOST-D0_2-A1-B DONE
 		A2: 
 			XGBOOST-D0_1-A2(5)-B DONE
 			XGBOOST-D0_1-A2(10)-B DONE
-			XGBOOST-D0_1-A2(15)-B
+			XGBOOST-D0_1-A2(15)-B DONE
 			///////////////
 			XGBOOST-D0_2-A2(5)-B 
 			XGBOOST-D0_2-A2(10)-B 
