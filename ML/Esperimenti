@@ -1,25 +1,171 @@
 #TIPI DI ESPERIMENTI
 
-Dataset feature D0: RF & LBP su H e S & Nodenoise 
-	A1 No feature selection =>  DONE: RF-D0-A1-B
-	A2 feature selection k best, k=10 k=5 => DONE: RF-D0-A2(5)-B; RF-D0-A2(10)-B
-	A3 feature extraction pca, 10, 5, 15 => DONE: RF-D0-A3(5)-B; RF-D0-A3(10)-B; RF-D0-A3(15)-B
+**Tipi di dataset**
+D0 =>Dataset con LBP8 (in totale 20 feature) su H e S
+_1 => immagini NOdenoised
+_2 => immagini denoised 
+
+**Tipi di esperimeti**
+A1 => utilizzo dataset così come è 
+A2(k) => feature selection con k best 
+A3(k) => feature extraction con pca con k principal components. 
+
+
+**Tipi di testing**
+B => Oneshot (80::20) AND CroosValidation (5 fold)
+*********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+		PRIMA SERIE DI ESPERIMENTI 
+D0_1 => Dataset con LBP8 (in totale 20 feature) su H e S, immagini no denoised 
+D0_2 => Dataset con LBP8 (in totale 20 feature) su H e S, immagini denoised 
+
+Esperimenti:
+	RF: 
+		A1:
+			RF-D0_1-A1-B DONE 
+			///////////////
+			RF-D0_2-A1-B
+		A2: 
+			RF-D0_1-A2(5)-B DONE
+			RF-D0_1-A2(10)-B DONE
+			RF-D0_1-A2(15)-B
+			///////////////
+			RF-D0_2-A2(5)-B 
+			RF-D0_2-A2(10)-B 
+			RF-D0_2-A2(15)-B
+		A3: 
+			RF-D0_1-A3(5)-B DONE
+			RF-D0_1-A3(10)-B DONE
+			RF-D0_1-A3(15)-B DONE
+			///////////////
+			RF-D0_2-A3(5)-B 
+			RF-D0_2-A3(10)-B 
+			RF-D0_2-A3(15)-B 
+			
+			
+	SVM: 
+		A1:
+			SVM-D0_1-A1-B DONE 
+			///////////////
+			SVM-D0_2-A1-B
+		A2: 
+			SVM-D0_1-A2(5)-B DONE
+			SVM-D0_1-A2(10)-B DONE
+			SVM-D0_1-A2(15)-B
+			///////////////
+			SVM-D0_2-A2(5)-B 
+			SVM-D0_2-A2(10)-B 
+			SVM-D0_2-A2(15)-B
+		A3: 
+			SVM-D0_1-A3(5)-B DONE
+			SVM-D0_1-A3(10)-B DONE
+			SVM-D0_1-A3(15)-B DONE
+			///////////////
+			SVM-D0_2-A3(5)-B 
+			SVM-D0_2-A3(10)-B 
+			SVM-D0_2-A3(15)-B 		
+			
+	XGBoost: 
+		A1:
+			XGBOOST-D0_1-A1-B DONE 
+			///////////////
+			XGBOOST-D0_2-A1-B
+		A2: 
+			XGBOOST-D0_1-A2(5)-B DONE
+			XGBOOST-D0_1-A2(10)-B DONE
+			XGBOOST-D0_1-A2(15)-B
+			///////////////
+			XGBOOST-D0_2-A2(5)-B 
+			XGBOOST-D0_2-A2(10)-B 
+			XGBOOST-D0_2-A2(15)-B
+		A3: 
+			XGBOOST-D0_1-A3(5)-B DONE
+			XGBOOST-D0_1-A3(10)-B DONE
+			XGBOOST-D0_1-A3(15)-B DONE
+			///////////////
+			XGBOOST-D0_2-A3(5)-B 
+			XGBOOST-D0_2-A3(10)-B 
+			XGBOOST-D0_2-A3(15)-B 	
+			
+			
+*********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+		SECONDA SERIE DI ESPERIMENTI 
+D1_1 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini no denoised 
+D1_2 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini denoised 
+	RF: 
+		A1 
+			RF-D1_1-A1-B =>
+			///////////////
+			RF-D1_2-A1-B =>
+		A2 
+			RF-D1_1-A2(10)-B =>
+			RF-D1_1-A2(30)-B =>
+			RF-D1_1-A2(50)-B =>
+			RF-D1_1-A2(70)-B =>
+			///////////////
+			RF-D1_2-A2(10)-B =>
+			RF-D1_2-A2(30)-B =>
+			RF-D1_2-A2(50)-B =>
+			RF-D1_2-A2(70)-B =>
+		A3 
+			RF-D1_1-A3(10)-B =>
+			RF-D1_1-A3(30)-B =>
+			RF-D1_1-A3(50)-B =>
+			RF-D1_1-A3(70)-B =>
+			///////////////
+			RF-D1_2-A3(10)-B =>
+			RF-D1_2-A3(30)-B =>
+			RF-D1_2-A3(50)-B =>
+			RF-D1_2-A3(70)-B =>
+	SVM: 
+		A1 
+			SVM-D1_1-A1-B =>
+			///////////////
+			SVM-D1_2-A1-B =>
+		A2 
+			SVM-D1_1-A2(10)-B =>
+			SVM-D1_1-A2(30)-B =>
+			SVM-D1_1-A2(50)-B =>
+			SVM-D1_1-A2(70)-B =>
+			///////////////
+			SVM-D1_2-A2(10)-B =>
+			SVM-D1_2-A2(30)-B =>
+			SVM-D1_2-A2(50)-B =>
+			SVM-D1_2-A2(70)-B =>
+		A3 
+			SVM-D1_1-A3(10)-B =>
+			SVM-D1_1-A3(30)-B =>
+			SVM-D1_1-A3(50)-B =>
+			SVM-D1_1-A3(70)-B =>
+			///////////////
+			SVM-D1_2-A3(10)-B =>
+			SVM-D1_2-A3(30)-B =>
+			SVM-D1_2-A3(50)-B =>
+			SVM-D1_2-A3(70)-B =>
 		
-		B:Split 80:20
-		B:Cross validation 5 fold 
-	
-Dataset feature D0: SVM & LBP su H e S & Nodenoise 
-	A1 No feature selection =>  DONE: SVM-D0-A1-B
-	A2 feature selection k best, k=10 k=5 k=15 => DONE: SVM-D0-A2(10)-B,SVM-D0-A2(5)-B,SVM-D0-A2(15)-B 
-	A3 feature extraction pca, 10, 5, 15 => DONE: SVM-D0-A3(10)-B,SVM-D0-A3(5)-B,SVM-D0-A3(15)-B 
-		
-		B:Split 80:20
-		B:Cross validation 5 fold 
-	
-Dataset feature D0: XGBOOST & LBP su H e S & Nodenoise 
-	A1 No feature selection =>  DONE: XGBOOST-D0-A1-B
-	A2 feature selection k best, k=10 k=5, k=15 => DONE:  XGBOOST-D0-A2(5)-B, XGBOOST-D0-A2(10)-B, XGBOOST-D0-A2(15)-B
-	A3 feature extraction pca, 10, 5, 15 => DONE: XGBOOST-D0-A3(15)-B, XGBOOST-D0-A3(10)-B, XGBOOST-D0-A3(5)-B
-		
-		B:Split 80:20
-		B:Cross validation 5 fold 
+	XGBOOST: 
+		A1 
+			XGBOOST-D1_1-A1-B =>
+			///////////////
+			XGBOOST-D1_2-A1-B =>
+		A2 
+			XGBOOST-D1_1-A2(10)-B =>
+			XGBOOST-D1_1-A2(30)-B =>
+			XGBOOST-D1_1-A2(50)-B =>
+			XGBOOST-D1_1-A2(70)-B =>
+			///////////////
+			XGBOOST-D1_2-A2(10)-B =>
+			XGBOOST-D1_2-A2(30)-B =>
+			XGBOOST-D1_2-A2(50)-B =>
+			XGBOOST-D1_2-A2(70)-B =>
+		A3 
+			XGBOOST-D1_1-A3(10)-B =>
+			XGBOOST-D1_1-A3(30)-B =>
+			XGBOOST-D1_1-A3(50)-B =>
+			XGBOOST-D1_1-A3(70)-B =>
+			///////////////
+			XGBOOST-D1_2-A3(10)-B =>
+			XGBOOST-D1_2-A3(30)-B =>
+			XGBOOST-D1_2-A3(50)-B =>
+			XGBOOST-D1_2-A3(70)-B =>		
