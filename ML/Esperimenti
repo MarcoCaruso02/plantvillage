@@ -76,17 +76,17 @@ Esperimenti:
 			XGBOOST-D0_1-A2(10)-B DONE
 			XGBOOST-D0_1-A2(15)-B DONE
 			///////////////
-			XGBOOST-D0_2-A2(5)-B 
-			XGBOOST-D0_2-A2(10)-B 
-			XGBOOST-D0_2-A2(15)-B
+			XGBOOST-D0_2-A2(5)-B DONE
+			XGBOOST-D0_2-A2(10)-B DONE
+			XGBOOST-D0_2-A2(15)-B DONE
 		A3: 
 			XGBOOST-D0_1-A3(5)-B DONE
 			XGBOOST-D0_1-A3(10)-B DONE
 			XGBOOST-D0_1-A3(15)-B DONE
 			///////////////
-			XGBOOST-D0_2-A3(5)-B 
-			XGBOOST-D0_2-A3(10)-B 
-			XGBOOST-D0_2-A3(15)-B 	
+			XGBOOST-D0_2-A3(5)-B DONE
+			XGBOOST-D0_2-A3(10)-B DONE
+			XGBOOST-D0_2-A3(15)-B DONE
 			
 			
 *********************************************************************************************************************************************************************
