@@ -25,46 +25,46 @@ Esperimenti:
 		A1:
 			RF-D0_1-A1-B DONE 
 			///////////////
-			RF-D0_2-A1-B
+			RF-D0_2-A1-B DONE
 		A2: 
 			RF-D0_1-A2(5)-B DONE
 			RF-D0_1-A2(10)-B DONE
-			RF-D0_1-A2(15)-B
+			RF-D0_1-A2(15)-B DONE
 			///////////////
-			RF-D0_2-A2(5)-B 
-			RF-D0_2-A2(10)-B 
-			RF-D0_2-A2(15)-B
+			RF-D0_2-A2(5)-B DONE
+			RF-D0_2-A2(10)-B DONE
+			RF-D0_2-A2(15)-B DONE
 		A3: 
 			RF-D0_1-A3(5)-B DONE
 			RF-D0_1-A3(10)-B DONE
 			RF-D0_1-A3(15)-B DONE
 			///////////////
-			RF-D0_2-A3(5)-B 
-			RF-D0_2-A3(10)-B 
-			RF-D0_2-A3(15)-B 
+			RF-D0_2-A3(5)-B DONE
+			RF-D0_2-A3(10)-B DONE
+			RF-D0_2-A3(15)-B DONE
 			
 			
 	SVM: 
 		A1:
 			SVM-D0_1-A1-B DONE 
 			///////////////
-			SVM-D0_2-A1-B
+			SVM-D0_2-A1-B DONE
 		A2: 
 			SVM-D0_1-A2(5)-B DONE
 			SVM-D0_1-A2(10)-B DONE
-			SVM-D0_1-A2(15)-B
+			SVM-D0_1-A2(15)-B DONE
 			///////////////
-			SVM-D0_2-A2(5)-B 
-			SVM-D0_2-A2(10)-B 
-			SVM-D0_2-A2(15)-B
+			SVM-D0_2-A2(5)-B DONE
+			SVM-D0_2-A2(10)-B DONE
+			SVM-D0_2-A2(15)-B DONE
 		A3: 
 			SVM-D0_1-A3(5)-B DONE
 			SVM-D0_1-A3(10)-B DONE
 			SVM-D0_1-A3(15)-B DONE
 			///////////////
-			SVM-D0_2-A3(5)-B 
-			SVM-D0_2-A3(10)-B 
-			SVM-D0_2-A3(15)-B 		
+			SVM-D0_2-A3(5)-B DONE
+			SVM-D0_2-A3(10)-B DONE
+			SVM-D0_2-A3(15)-B DONE		
 			
 	XGBoost: 
 		A1:

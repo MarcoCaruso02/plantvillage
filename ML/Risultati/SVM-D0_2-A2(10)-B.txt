@@ -1,0 +1,45 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: features_denoised.csv
+Target column: label
+Normalizzazione: none
+Feature selection: True (10 features)
+PCA: False (15 componenti)
+Modello: svm
+Best par: {'C': 10, 'gamma': 1, 'kernel': 'rbf'}Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+Feature selezionate:
+- LBP0S
+- LBP1S
+- LBP2S
+- LBP3S
+- LBP4S
+- LBP5S
+- LBP6S
+- LBP7S
+- LBP8S
+- LBP9S
+
+RISULTATI:
+Accuracy-oneshot: 0.461
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.61      0.72      0.66        32
+           1       0.19      0.09      0.12        32
+           2       0.52      0.41      0.46        32
+           3       0.00      0.00      0.00        32
+           4       0.33      0.56      0.42        32
+           5       0.42      0.66      0.51        32
+           6       0.47      0.72      0.57        32
+           7       0.71      0.53      0.61        32
+
+    accuracy                           0.46       256
+   macro avg       0.41      0.46      0.42       256
+weighted avg       0.41      0.46      0.42       256
+Result cv-scores: [0.5078125  0.44921875 0.41796875 0.4140625  0.47265625]
+Result cv-average: 0.452
