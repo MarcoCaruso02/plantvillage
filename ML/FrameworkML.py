@@ -89,9 +89,9 @@ if model_name == "random_forest":
 elif model_name == "svm":
     #Maybe to add a grid search to look for the best kernel and hyperpar.
     param_grid = [
-        {'kernel': ['linear'], 'C': [0.1, 1, 10]},
-        {'kernel': ['rbf'], 'C': [0.1, 1, 10], 'gamma': [0.01, 0.1, 1]},
-        {'kernel': ['poly'], 'C': [0.1, 1], 'degree': [2, 3], 'gamma': ['scale']},
+        {'kernel': ['linear'], 'C': [0.01, 0.1, 1, 10, 100]},
+        {'kernel': ['rbf'], 'C': [0.01, 0.1, 1, 10, 100], 'gamma': [1e-3, 1e-2, 0.1, 'scale', 'auto']},
+        {'kernel': ['poly'], 'C': [0.1, 1], 'degree': [2, 3], 'gamma': ['scale', 'auto']},
     ]
 
     model = SVC()
