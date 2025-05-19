@@ -1,0 +1,33 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: LBP_8_12_16(D1_1).csv
+Target column: label
+Normalizzazione: none
+Feature selection: False (10 features)
+PCA: False (15 componenti)
+Modello: svm
+Best par: {'C': 100, 'kernel': 'linear'}Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+RISULTATI:
+Accuracy-oneshot: 0.734
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.85      0.91      0.88        32
+           1       0.82      0.88      0.85        32
+           2       0.60      0.78      0.68        32
+           3       0.64      0.91      0.75        32
+           4       0.81      0.41      0.54        32
+           5       0.73      0.69      0.71        32
+           6       0.62      0.66      0.64        32
+           7       1.00      0.66      0.79        32
+
+    accuracy                           0.73       256
+   macro avg       0.76      0.73      0.73       256
+weighted avg       0.76      0.73      0.73       256
+Result cv-scores: [0.69921875 0.70703125 0.6953125  0.7109375  0.69140625]
+Result cv-average: 0.701

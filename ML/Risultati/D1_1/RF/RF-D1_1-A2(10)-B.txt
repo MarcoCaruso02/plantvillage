@@ -1,0 +1,45 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: LBP_8_12_16(D1_1).csv
+Target column: label
+Normalizzazione: none
+Feature selection: True (10 features)
+PCA: False (30 componenti)
+Modello: random_forest
+Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+Feature selezionate:
+- 8LBP2s
+- 8LBP3s
+- 8LBP4s
+- 8LBP6s
+- 12LBP9h
+- 12LBP0s
+- 12LBP2s
+- 12LBP6s
+- 16LBP9h
+- 16LBP11h
+
+RISULTATI:
+Accuracy-oneshot: 0.598
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.63      0.75      0.69        32
+           1       0.67      0.62      0.65        32
+           2       0.44      0.62      0.52        32
+           3       0.68      0.78      0.72        32
+           4       0.50      0.22      0.30        32
+           5       0.60      0.66      0.63        32
+           6       0.53      0.50      0.52        32
+           7       0.74      0.62      0.68        32
+
+    accuracy                           0.60       256
+   macro avg       0.60      0.60      0.59       256
+weighted avg       0.60      0.60      0.59       256
+Result cv-scores: [0.64453125 0.58203125 0.5859375  0.64453125 0.6171875 ]
+Result cv-average: 0.615

@@ -1,13 +1,13 @@
 === MACHINE LEARNING CLASSIFICATION REPORT ===
 
 PARAMETRI:
-CSV path: LBP_8_12_16_den(D1_2).csv
+CSV path: LBP_8_12_16(D1_1).csv
 Target column: label
-Normalizzazione: std
+Normalizzazione: none
 Feature selection: True (70 features)
-PCA: False (70 componenti)
-Modello: svm
-Best par: {'C': 100, 'kernel': 'linear'}Cross-validation: True (5 folds)
+PCA: False (30 componenti)
+Modello: random_forest
+Cross-validation: True (5 folds)
 Train size: 0.8
 Test size: 0.2
 
@@ -27,7 +27,7 @@ Feature selezionate:
 - 8LBP7s
 - 8LBP8s
 - 8LBP9s
-- 12LBP2h
+- 12LBP4h
 - 12LBP5h
 - 12LBP6h
 - 12LBP7h
@@ -84,22 +84,22 @@ Feature selezionate:
 - 16LBP17s
 
 RISULTATI:
-Accuracy-oneshot: 0.754
+Accuracy-oneshot: 0.691
 
 Classification Report-oneshot:
               precision    recall  f1-score   support
 
-           0       0.85      0.88      0.86        32
-           1       0.85      0.88      0.86        32
-           2       0.56      0.75      0.64        32
-           3       0.90      0.59      0.72        32
-           4       0.73      0.69      0.71        32
-           5       0.65      0.69      0.67        32
-           6       0.72      0.91      0.81        32
-           7       0.95      0.66      0.78        32
+           0       0.79      0.84      0.82        32
+           1       0.86      1.00      0.93        32
+           2       0.51      0.62      0.56        32
+           3       0.66      0.78      0.71        32
+           4       0.53      0.28      0.37        32
+           5       0.66      0.72      0.69        32
+           6       0.69      0.62      0.66        32
+           7       0.78      0.66      0.71        32
 
-    accuracy                           0.75       256
-   macro avg       0.78      0.75      0.75       256
-weighted avg       0.78      0.75      0.75       256
-Result cv-scores: [0.7109375  0.7109375  0.6640625  0.69921875 0.703125  ]
-Result cv-average: 0.698
+    accuracy                           0.69       256
+   macro avg       0.69      0.69      0.68       256
+weighted avg       0.69      0.69      0.68       256
+Result cv-scores: [0.73046875 0.6953125  0.69921875 0.71484375 0.6796875 ]
+Result cv-average: 0.704
