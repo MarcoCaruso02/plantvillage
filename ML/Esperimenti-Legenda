@@ -96,7 +96,7 @@ D1_1 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini no deno
 D1_2 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini denoised 
 	RF: 
 		A1 
-			RF-D1_1-A1-B =>
+			RF-D1_1-A1-B => DONE
 			///////////////
 			RF-D1_2-A1-B => DONE
 		A2 
@@ -159,7 +159,7 @@ D1_2 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini denoise
 			XGBOOST-D1_2-A2(10)-B => DONE
 			XGBOOST-D1_2-A2(30)-B => DONE
 			XGBOOST-D1_2-A2(50)-B => DONE
-			XGBOOST-D1_2-A2(70)-B => REDO
+			XGBOOST-D1_2-A2(70)-B => DONE
 		A3 
 			XGBOOST-D1_1-A3(10)-B => DONE
 			XGBOOST-D1_1-A3(30)-B => DONE
@@ -167,6 +167,6 @@ D1_2 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini denoise
 			XGBOOST-D1_1-A3(70)-B => DONE 
 			///////////////
 			XGBOOST-D1_2-A3(10)-B => SILVIA
-			XGBOOST-D1_2-A3(30)-B => SILVIA
-			XGBOOST-D1_2-A3(50)-B => SILVIA
+			XGBOOST-D1_2-A3(30)-B => DONE
+			XGBOOST-D1_2-A3(50)-B => DONE
 			XGBOOST-D1_2-A3(70)-B => SILVIA	
