@@ -153,8 +153,8 @@ D1_2 => Dataset con LBP8-12-16 (in totale 84 feature) su H e S, immagini denoise
 		A2 
 			XGBOOST-D1_1-A2(10)-B => MARCO 
 			XGBOOST-D1_1-A2(30)-B => MARCO
-			XGBOOST-D1_1-A2(50)-B =>
-			XGBOOST-D1_1-A2(70)-B =>
+			XGBOOST-D1_1-A2(50)-B => MARCO
+			XGBOOST-D1_1-A2(70)-B => MARCO
 			///////////////
 			XGBOOST-D1_2-A2(10)-B => FEDERICO
 			XGBOOST-D1_2-A2(30)-B => FEDERICO
