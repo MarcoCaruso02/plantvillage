@@ -1,33 +1,33 @@
 === MACHINE LEARNING CLASSIFICATION REPORT ===
 
 PARAMETRI:
-CSV path: features_denoised.csv
+CSV path: LBP_8_den(D0_2).csv
 Target column: label
 Normalizzazione: none
 Feature selection: False (15 features)
 PCA: PCA(n_components=5) (5 componenti)
 Modello: svm
-Best par: {'C': 10, 'gamma': 1, 'kernel': 'rbf'}Cross-validation: True (5 folds)
+Best par: {'C': 100, 'gamma': 'scale', 'kernel': 'rbf'}Cross-validation: True (5 folds)
 Train size: 0.8
 Test size: 0.2
 
 RISULTATI:
-Accuracy-oneshot: 0.605
+Accuracy-oneshot: 0.707
 
 Classification Report-oneshot:
               precision    recall  f1-score   support
 
-           0       0.71      0.62      0.67        32
-           1       0.77      0.62      0.69        32
-           2       0.59      0.59      0.59        32
-           3       0.56      0.28      0.38        32
-           4       0.50      0.59      0.54        32
-           5       0.55      0.66      0.60        32
-           6       0.52      0.91      0.66        32
-           7       0.82      0.56      0.67        32
+           0       0.83      0.91      0.87        32
+           1       0.78      0.91      0.84        32
+           2       0.61      0.62      0.62        32
+           3       0.59      0.41      0.48        32
+           4       0.64      0.72      0.68        32
+           5       0.72      0.66      0.69        32
+           6       0.67      0.81      0.73        32
+           7       0.80      0.62      0.70        32
 
-    accuracy                           0.61       256
-   macro avg       0.63      0.61      0.60       256
-weighted avg       0.63      0.61      0.60       256
-Result cv-scores: [0.58984375 0.5625     0.55078125 0.56640625 0.5625    ]
-Result cv-average: 0.566
+    accuracy                           0.71       256
+   macro avg       0.70      0.71      0.70       256
+weighted avg       0.70      0.71      0.70       256
+Result cv-scores: [0.72265625 0.6640625  0.6875     0.68359375 0.703125  ]
+Result cv-average: 0.692

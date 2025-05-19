@@ -1,13 +1,13 @@
 === MACHINE LEARNING CLASSIFICATION REPORT ===
 
 PARAMETRI:
-CSV path: features_denoised.csv
+CSV path: LBP_8_den(D0_2).csv
 Target column: label
 Normalizzazione: none
 Feature selection: True (15 features)
-PCA: False (15 componenti)
+PCA: False (5 componenti)
 Modello: svm
-Best par: {'C': 10, 'gamma': 1, 'kernel': 'rbf'}Cross-validation: True (5 folds)
+Best par: {'C': 100, 'gamma': 'scale', 'kernel': 'rbf'}Cross-validation: True (5 folds)
 Train size: 0.8
 Test size: 0.2
 
@@ -29,22 +29,22 @@ Feature selezionate:
 - LBP9S
 
 RISULTATI:
-Accuracy-oneshot: 0.602
+Accuracy-oneshot: 0.711
 
 Classification Report-oneshot:
               precision    recall  f1-score   support
 
-           0       0.71      0.62      0.67        32
-           1       0.75      0.66      0.70        32
-           2       0.57      0.53      0.55        32
-           3       0.59      0.31      0.41        32
-           4       0.50      0.62      0.56        32
-           5       0.56      0.62      0.59        32
-           6       0.53      0.91      0.67        32
-           7       0.77      0.53      0.63        32
+           0       0.82      0.88      0.85        32
+           1       0.79      0.84      0.82        32
+           2       0.51      0.59      0.55        32
+           3       0.80      0.38      0.51        32
+           4       0.66      0.72      0.69        32
+           5       0.69      0.69      0.69        32
+           6       0.62      0.91      0.73        32
+           7       1.00      0.69      0.81        32
 
-    accuracy                           0.60       256
-   macro avg       0.62      0.60      0.60       256
-weighted avg       0.62      0.60      0.60       256
-Result cv-scores: [0.5859375  0.5703125  0.55078125 0.56640625 0.5546875 ]
-Result cv-average: 0.566
+    accuracy                           0.71       256
+   macro avg       0.74      0.71      0.71       256
+weighted avg       0.74      0.71      0.71       256
+Result cv-scores: [0.66796875 0.671875   0.68359375 0.6640625  0.65625   ]
+Result cv-average: 0.669

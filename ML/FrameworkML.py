@@ -17,9 +17,9 @@ from xgboost import XGBClassifier
 #parameters
 
 
-csv_path = "features.csv"        # Nome del file CSV
+csv_path = "LBP_8_(D0_1).csv"        # Nome del file CSV
 target_column = "label"
-result_file ="XGBOOST-D0-A1-B.txt"
+result_file ="SVM-D0_1-A1-B.txt"
 
 normalization = "none" ##possible options are min-max; std; none
 feature_selection = False
@@ -28,7 +28,7 @@ pca = False
 num_principal_components = 15 #pca
 
 
-model_name = "xgboost" #possible options are: random_forest,svm, xgboost
+model_name = "svm" #possible options are: random_forest,svm, xgboost
 #kernel_type = "linear" #svm kernel: linear, poly, rbf, sigmoid.
 cross_validation = True
 cv_folds = 5
