@@ -1,0 +1,33 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+PARAMETRI:
+CSV path: LBP_8_12_16(D1_1).csv
+Target column: label
+Normalizzazione: none
+Feature selection: False (70 features)
+PCA: PCA(n_components=30) (30 componenti)
+Modello: xgboost
+Best par: {'booster': 'gblinear', 'gamma': 0, 'learning_rate': None, 'max_depth': 3, 'min_child_weight': 0.5, 'n_estimators': 50}Cross-validation: True (5 folds)
+Train size: 0.8
+Test size: 0.2
+
+RISULTATI:
+Accuracy-oneshot: 0.832
+
+Classification Report-oneshot:
+              precision    recall  f1-score   support
+
+           0       0.90      0.88      0.89        32
+           1       0.97      0.94      0.95        32
+           2       0.74      0.81      0.78        32
+           3       0.74      0.88      0.80        32
+           4       0.89      0.75      0.81        32
+           5       0.72      0.66      0.69        32
+           6       0.79      0.84      0.82        32
+           7       0.94      0.91      0.92        32
+
+    accuracy                           0.83       256
+   macro avg       0.84      0.83      0.83       256
+weighted avg       0.84      0.83      0.83       256
+Result cv-scores: [0.8671875  0.8046875  0.82421875 0.78125    0.8046875 ]
+Result cv-average: 0.816
