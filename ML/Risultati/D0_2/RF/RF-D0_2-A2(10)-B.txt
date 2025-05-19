@@ -1,7 +1,7 @@
 === MACHINE LEARNING CLASSIFICATION REPORT ===
 
 PARAMETRI:
-CSV path: features_denoised.csv
+CSV path: LBP_8_den(D0_2).csv
 Target column: label
 Normalizzazione: none
 Feature selection: True (10 features)
