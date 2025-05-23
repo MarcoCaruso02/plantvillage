@@ -3,6 +3,7 @@
 **Tipi di dataset**
 D0 =>Dataset con LBP8 (in totale 20 feature) su H e S
 D1 =>Dataset con LBP8-12-16 (in totale 84 feature) su H e S
+D2 =>Dataset con LBP8-12-16+GLCM (in totale 102 feature)
 _1 => immagini NOdenoised
 _2 => immagini denoised 
 
