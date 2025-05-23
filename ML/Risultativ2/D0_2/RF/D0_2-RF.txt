@@ -1,0 +1,76 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: LBP_8_den(D0_2).csv
+Model: RF
+Best configuration:
+  (('classifier', RandomForestClassifier()), ('dim_reduction', PCA()), ('dim_reduction__n_components', 15), ('feature_selection', 'passthrough'), ('normalization', StandardScaler())): 3
+Average accuracy: 75.390625%
+Average deviation: 1.5625%
+Average f1 score: 75.23753531448382%
+Average f1 score: 1.622513255275238%
+Average precision: 75.91525469050066%
+Average precision: 1.4493219021227945%
+Average recall: 75.390625%
+Average recall: 1.5625%
+
+Confusion Matrices per Fold:
+
+Fold 1 Confusion Matrix:
+[[30  0  0  2  0  0  0  0]
+ [ 0 29  0  0  2  1  0  0]
+ [ 0  0 20  4  3  1  1  3]
+ [ 0  0  4 21  2  0  4  1]
+ [ 0  0  1  0 27  3  1  0]
+ [ 1  3  1  1  2 22  1  1]
+ [ 0  0  2  0  1  0 29  0]
+ [ 1  0  4  0  5  0  1 21]]
+
+Fold 2 Confusion Matrix:
+[[28  1  2  0  0  1  0  0]
+ [ 0 30  1  0  0  1  0  0]
+ [ 3  0 22  4  0  0  2  1]
+ [ 1  0  2 21  1  2  3  2]
+ [ 0  0  1  0 19  3  6  3]
+ [ 0  2  0  1  4 24  0  1]
+ [ 0  1  2  0  1  0 24  4]
+ [ 1  0  2  1  0  1  0 27]]
+
+Fold 3 Confusion Matrix:
+[[30  0  0  2  0  0  0  0]
+ [ 0 26  1  0  1  4  0  0]
+ [ 2  0 19  4  4  2  0  1]
+ [ 3  0  2 20  2  1  2  2]
+ [ 1  3  0  0 21  6  1  0]
+ [ 2  1  1  1  3 24  0  0]
+ [ 0  0  3  3  1  0 25  0]
+ [ 0  0  3  1  0  0  0 28]]
+
+Fold 4 Confusion Matrix:
+[[30  0  1  0  0  1  0  0]
+ [ 1 26  0  0  3  2  0  0]
+ [ 1  0 21  0  4  0  4  2]
+ [ 1  1  1 25  1  1  1  1]
+ [ 1  1  3  0 20  4  2  1]
+ [ 1  4  2  1  2 20  1  1]
+ [ 0  0  2  0  2  0 27  1]
+ [ 0  1  2  0  3  0  4 22]]
+
+Fold 5 Confusion Matrix:
+[[30  0  1  0  0  0  0  1]
+ [ 0 22  0  0  3  6  0  1]
+ [ 1  0 17  2  3  2  6  1]
+ [ 2  1  3 18  1  4  1  2]
+ [ 0  0  1  2 22  4  2  1]
+ [ 1  2  0  2  2 23  1  1]
+ [ 0  0  1  0  0  0 31  0]
+ [ 0  0  2  0  2  0  4 24]]
+
+Aggregated Confusion Matrix:
+[[148   1   4   4   0   2   0   1]
+ [  1 133   2   0   9  14   0   1]
+ [  7   0  99  14  14   5  13   8]
+ [  7   2  12 105   7   8  11   8]
+ [  2   4   6   2 109  20  12   5]
+ [  5  12   4   6  13 113   3   4]
+ [  0   1  10   3   5   0 136   5]
+ [  2   1  13   2  10   1   9 122]]
