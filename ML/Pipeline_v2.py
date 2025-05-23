@@ -45,8 +45,11 @@ def parameters_span(dataset_name):
 #Parameters of the pipeline are split in the common base than add the classifier__params
 def base_grid_blocks(dataset_name, classifier, classifier_params):
     span = parameters_span(dataset_name)
-    scalers = [StandardScaler(), MinMaxScaler(), 'passthrough']
-
+    # It's mandatory the normalization with SVM model, otherwise with the GLCM feature goes in loop
+    if isinstance(classifier, SVC):
+        scalers = [StandardScaler(), MinMaxScaler()] 
+    else:
+        scalers = [StandardScaler(), MinMaxScaler(), 'passthrough']
     blocks = []
 
     # Feature selection only
@@ -116,9 +119,10 @@ def param_grid_creation(dataset_name, model_name):
 #MAIN
 print("\nDataset Loading...\n")
 
-dataset_name="LBP_8_(D0_1).csv"
-model_name="KNN"
-result_file="provaKNN2.txt"
+dataset_name="LBP_max_GLCM(D2_2).csv"
+#TO DO KNN(DONE), RF, SVM, XGBOOST
+model_name="SVM"
+result_file="D2_2-SVM.txt"
 #DATASET LOADING
 
 df_all = pd.read_csv(dataset_name)
