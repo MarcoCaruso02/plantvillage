@@ -1,0 +1,86 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: LBP_8_(D0_1).csv
+Model: XGBOOST
+Best configuration:
+  (('classifier', XGBClassifier(base_score=None, booster=None, callbacks=None,
+              colsample_bylevel=None, colsample_bynode=None,
+              colsample_bytree=None, device=None, early_stopping_rounds=None,
+              enable_categorical=False, eval_metric=None, feature_types=None,
+              feature_weights=None, gamma=None, grow_policy=None,
+              importance_type=None, interaction_constraints=None,
+              learning_rate=None, max_bin=None, max_cat_threshold=None,
+              max_cat_to_onehot=None, max_delta_step=None, max_depth=None,
+              max_leaves=None, min_child_weight=None, missing=nan,
+              monotone_constraints=None, multi_strategy=None, n_estimators=None,
+              n_jobs=None, num_parallel_tree=None, ...)), ('classifier__booster', 'gbtree'), ('classifier__gamma', 0), ('classifier__learning_rate', 1), ('classifier__max_depth', 3), ('classifier__min_child_weight', 0.5), ('classifier__n_estimators', 50), ('dim_reduction', PCA()), ('dim_reduction__n_components', 15), ('feature_selection', 'passthrough'), ('normalization', StandardScaler())): 1
+Average accuracy: 74.296875%
+Average deviation: 1.3395647030845506%
+Average f1 score: 74.1611427221961%
+Average f1 score: 1.3685641473764165%
+Average precision: 74.65278079467564%
+Average precision: 1.3853410060359872%
+Average recall: 74.296875%
+Average recall: 1.3395647030845506%
+
+Confusion Matrices per Fold:
+
+Fold 1 Confusion Matrix:
+[[25  0  0  0  4  0  2  1]
+ [ 0 29  0  0  0  2  1  0]
+ [ 0  0 22  2  2  3  1  2]
+ [ 0  0  1 26  2  3  0  0]
+ [ 2  1  2  2 19  2  2  2]
+ [ 0  0  5  3  2 19  1  2]
+ [ 0  4  1  0  1  4 21  1]
+ [ 0  0  2  0  1  4  0 25]]
+
+Fold 2 Confusion Matrix:
+[[29  1  0  0  1  0  1  0]
+ [ 1 28  1  0  0  1  1  0]
+ [ 4  0 18  3  4  2  0  1]
+ [ 0  0  2 25  2  3  0  0]
+ [ 0  0  2  3 23  1  2  1]
+ [ 1  1  4  1  1 23  1  0]
+ [ 2  6  0  0  1  5 18  0]
+ [ 3  0  2  0  0  1  0 26]]
+
+Fold 3 Confusion Matrix:
+[[26  0  1  0  3  0  1  1]
+ [ 0 26  0  0  0  2  4  0]
+ [ 1  0 22  2  1  2  1  3]
+ [ 0  0  1 28  1  1  0  1]
+ [ 3  1  0  2 22  3  1  0]
+ [ 0  2  1  2  0 22  1  4]
+ [ 1  3  3  1  2  2 19  1]
+ [ 0  0  0  1  1  0  0 30]]
+
+Fold 4 Confusion Matrix:
+[[28  1  2  1  0  0  0  0]
+ [ 1 28  0  0  0  0  3  0]
+ [ 1  0 23  2  0  5  0  1]
+ [ 0  0  4 22  1  2  0  3]
+ [ 3  0  3  0 24  1  0  1]
+ [ 0  1  2  1  0 20  5  3]
+ [ 1  2  1  0  1  3 24  0]
+ [ 0  0  3  2  0  3  0 24]]
+
+Fold 5 Confusion Matrix:
+[[28  0  2  0  0  0  0  2]
+ [ 0 24  1  0  0  2  5  0]
+ [ 1  0 16  5  4  3  1  2]
+ [ 0  0  3 26  1  2  0  0]
+ [ 3  0  4  3 15  3  2  2]
+ [ 0  3  1  0  3 22  3  0]
+ [ 0  1  1  0  0  1 29  0]
+ [ 0  0  2  2  0  1  0 27]]
+
+Aggregated Confusion Matrix:
+[[136   2   5   1   8   0   4   4]
+ [  2 135   2   0   0   7  14   0]
+ [  7   0 101  14  11  15   3   9]
+ [  0   0  11 127   7  11   0   4]
+ [ 11   2  11  10 103  10   7   6]
+ [  1   7  13   7   6 106  11   9]
+ [  4  16   6   1   5  15 111   2]
+ [  3   0   9   5   2   9   0 132]]
