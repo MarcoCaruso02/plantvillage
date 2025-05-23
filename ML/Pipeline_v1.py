@@ -53,7 +53,7 @@ def parameters_span(dataset_name):
         par_span=[5,10,15]
     elif(dataset_name=="LBP_8_12_16(D1_1).csv" or dataset_name=="LBP_8_12_16_den(D1_2).csv"):
         par_span = [10, 30, 50, 70]
-    elif(dataset_name=="LBP&GLCM.csv"):
+    elif(dataset_name=="LBP_max_GLCM(D2_1).csv" or dataset_name=="LBP_max_GLCM(D2_2).csv"):
         par_span=[30,50,70,90]
     return par_span
 
