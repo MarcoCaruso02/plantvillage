@@ -5,13 +5,13 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest, f_classif
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, make_scorer, f1_score, precision_score, recall_score
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
+from sklearn.metrics import confusion_matrix
 
 
 def pipeline_creation(model_name):
@@ -270,6 +270,10 @@ test_precision=[]
 test_recall=[]
 test_f1score=[]
 
+
+all_y_true = []
+all_y_pred = []
+fold_conf_matrices = []
 for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(data, target), 1):
     print(f"\n===== Outer Fold {fold_idx} =====\n")
 
@@ -298,6 +302,13 @@ for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(data, target), 1
 
     # Evaluate on the outer test fold
     y_pred = best_model.predict(X_test)
+
+    #in order to compute the confusion matrix for each fold e for the aggregated version
+    all_y_true.extend(y_test)
+    all_y_pred.extend(y_pred)
+    cm_fold = confusion_matrix(y_test, y_pred)
+    fold_conf_matrices.append(cm_fold)
+
     accuracy = accuracy_score(y_test, y_pred)
     f1=f1_score(y_test,y_pred,average='weighted')
     precision= precision_score(y_test,y_pred,average='weighted')
@@ -311,6 +322,9 @@ for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(data, target), 1
     test_f1score.append(f1)
     test_recall.append(recall)
     test_precision.append(precision)
+
+
+cm_agg = confusion_matrix(all_y_true, all_y_pred)
 
 mean_accuracy = np.mean(test_accuracies)
 std_accuracy = np.std(test_accuracies)
@@ -352,3 +366,11 @@ with open(result_file, 'w') as f:
     f.write(f"Average precision: {std_precision * 100}%\n")
     f.write(f"Average recall: {mean_recall * 100}%\n")
     f.write(f"Average recall: {std_recall * 100}%\n")
+    f.write("\nConfusion Matrices per Fold:\n")
+    for i, cm in enumerate(fold_conf_matrices, 1):
+        f.write(f"\nFold {i} Confusion Matrix:\n")
+        f.write(np.array2string(cm))
+        f.write("\n")
+
+    f.write("\nAggregated Confusion Matrix:\n")
+    f.write(np.array2string(cm_agg))
