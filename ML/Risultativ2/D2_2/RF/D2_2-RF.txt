@@ -1,0 +1,76 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: LBP_max_GLCM(D2_2).csv
+Model: RF
+Best configuration:
+  (('classifier', RandomForestClassifier()), ('dim_reduction', PCA()), ('dim_reduction__n_components', 50), ('feature_selection', 'passthrough'), ('normalization', 'passthrough')): 3
+Average accuracy: 84.84375%
+Average deviation: 1.0597390598633232%
+Average f1 score: 84.71641669519529%
+Average f1 score: 1.1009789409765558%
+Average precision: 85.26854411140074%
+Average precision: 0.8511380596094973%
+Average recall: 84.84375%
+Average recall: 1.0597390598633232%
+
+Confusion Matrices per Fold:
+
+Fold 1 Confusion Matrix:
+[[28  0  1  1  0  0  1  1]
+ [ 0 31  0  0  1  0  0  0]
+ [ 1  0 28  0  1  2  0  0]
+ [ 2  1  1 21  3  0  3  1]
+ [ 0  0  1  1 26  3  1  0]
+ [ 1  0  0  1  5 25  0  0]
+ [ 0  0  2  0  1  0 29  0]
+ [ 1  0  1  0  0  0  1 29]]
+
+Fold 2 Confusion Matrix:
+[[31  0  0  1  0  0  0  0]
+ [ 0 31  1  0  0  0  0  0]
+ [ 4  0 26  1  0  1  0  0]
+ [ 2  0  1 24  1  1  3  0]
+ [ 0  0  1  2 23  4  2  0]
+ [ 0  2  0  1  1 28  0  0]
+ [ 0  0  1  1  0  0 30  0]
+ [ 1  0  2  1  1  1  0 26]]
+
+Fold 3 Confusion Matrix:
+[[31  0  1  0  0  0  0  0]
+ [ 0 27  0  1  0  4  0  0]
+ [ 1  0 30  0  0  1  0  0]
+ [ 4  0  3 19  3  2  1  0]
+ [ 1  1  2  0 24  4  0  0]
+ [ 1  4  1  1  0 25  0  0]
+ [ 0  0  1  0  0  0 30  1]
+ [ 0  0  0  0  4  0  1 27]]
+
+Fold 4 Confusion Matrix:
+[[30  0  1  1  0  0  0  0]
+ [ 0 29  0  0  1  2  0  0]
+ [ 1  0 30  1  0  0  0  0]
+ [ 2  0  2 23  0  4  1  0]
+ [ 0  0  1  0 26  2  3  0]
+ [ 0  5  2  0  4 21  0  0]
+ [ 0  0  1  0  1  0 29  1]
+ [ 0  0  0  0  1  1  2 28]]
+
+Fold 5 Confusion Matrix:
+[[30  1  0  0  0  0  1  0]
+ [ 0 29  0  0  0  2  1  0]
+ [ 0  0 27  0  1  3  1  0]
+ [ 2  0  3 24  2  1  0  0]
+ [ 0  0  1  1 27  3  0  0]
+ [ 1  2  0  3  4 22  0  0]
+ [ 0  0  0  0  0  0 32  0]
+ [ 0  0  1  0  0  0  1 30]]
+
+Aggregated Confusion Matrix:
+[[150   1   3   3   0   0   2   1]
+ [  0 147   1   1   2   8   1   0]
+ [  7   0 141   2   2   7   1   0]
+ [ 12   1  10 111   9   8   8   1]
+ [  1   1   6   4 126  16   6   0]
+ [  3  13   3   6  14 121   0   0]
+ [  0   0   5   1   2   0 150   2]
+ [  2   0   4   1   6   2   5 140]]
