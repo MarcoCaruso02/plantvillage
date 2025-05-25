@@ -1,0 +1,76 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: features_102_Alex.csv
+Model: SVM
+Best configuration:
+  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.001), ('classifier__kernel', 'rbf'), ('dim_reduction', 'passthrough'), ('feature_selection', SelectKBest()), ('feature_selection__k', 180), ('normalization', StandardScaler())): 2
+Average accuracy: 95.3125%
+Average deviation: 1.8154609435347266%
+Average f1 score: 95.29535623766972%
+Average f1 score: 1.8340876072595238%
+Average precision: 95.53350228842105%
+Average precision: 1.6353454995732448%
+Average recall: 95.3125%
+Average recall: 1.8154609435347266%
+
+Confusion Matrices per Fold:
+
+Fold 1 Confusion Matrix:
+[[30  0  1  0  0  0  0  1]
+ [ 0 32  0  0  0  0  0  0]
+ [ 0  0 31  0  0  0  0  1]
+ [ 0  1  0 31  0  0  0  0]
+ [ 0  0  0  1 29  0  2  0]
+ [ 0  1  0  0  2 29  0  0]
+ [ 0  0  1  0  0  0 31  0]
+ [ 1  0  0  0  0  0  0 31]]
+
+Fold 2 Confusion Matrix:
+[[32  0  0  0  0  0  0  0]
+ [ 0 31  0  0  0  1  0  0]
+ [ 2  0 30  0  0  0  0  0]
+ [ 0  0  0 31  0  0  0  1]
+ [ 0  0  1  1 30  0  0  0]
+ [ 0  0  0  1  0 31  0  0]
+ [ 0  0  0  0  0  0 32  0]
+ [ 0  0  0  0  0  0  0 32]]
+
+Fold 3 Confusion Matrix:
+[[32  0  0  0  0  0  0  0]
+ [ 0 31  0  0  0  1  0  0]
+ [ 0  0 31  0  1  0  0  0]
+ [ 0  0  0 32  0  0  0  0]
+ [ 0  0  0  0 29  3  0  0]
+ [ 0  0  0  1  0 31  0  0]
+ [ 0  0  0  0  1  0 31  0]
+ [ 0  0  0  0  0  0  0 32]]
+
+Fold 4 Confusion Matrix:
+[[31  0  1  0  0  0  0  0]
+ [ 0 32  0  0  0  0  0  0]
+ [ 0  0 32  0  0  0  0  0]
+ [ 1  0  0 31  0  0  0  0]
+ [ 0  0  0  0 28  2  2  0]
+ [ 0  3  2  0  0 26  1  0]
+ [ 0  0  0  0  1  0 31  0]
+ [ 1  0  0  1  0  0  0 30]]
+
+Fold 5 Confusion Matrix:
+[[31  0  1  0  0  0  0  0]
+ [ 0 32  0  0  0  0  0  0]
+ [ 0  0 30  1  0  1  0  0]
+ [ 0  0  2 30  0  0  0  0]
+ [ 0  0  2  5 23  2  0  0]
+ [ 0  0  2  1  1 28  0  0]
+ [ 0  0  1  0  0  0 31  0]
+ [ 0  0  0  0  0  0  0 32]]
+
+Aggregated Confusion Matrix:
+[[156   0   3   0   0   0   0   1]
+ [  0 158   0   0   0   2   0   0]
+ [  2   0 154   1   1   1   0   1]
+ [  1   1   2 155   0   0   0   1]
+ [  0   0   3   7 139   7   4   0]
+ [  0   4   4   3   3 145   1   0]
+ [  0   0   2   0   2   0 156   0]
+ [  2   0   0   1   0   0   0 157]]

@@ -1,0 +1,76 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: features_102_Alex.csv
+Model: KNN
+Best configuration:
+  (('classifier', KNeighborsClassifier()), ('classifier__n_neighbors', 5), ('dim_reduction', 'passthrough'), ('feature_selection', SelectKBest()), ('feature_selection__k', 160), ('normalization', StandardScaler())): 2
+Average accuracy: 84.375%
+Average deviation: 1.8321936561810273%
+Average f1 score: 84.32277561676648%
+Average f1 score: 1.8320871586999163%
+Average precision: 85.93906039395642%
+Average precision: 1.5654947303833187%
+Average recall: 84.375%
+Average recall: 1.8321936561810273%
+
+Confusion Matrices per Fold:
+
+Fold 1 Confusion Matrix:
+[[28  1  3  0  0  0  0  0]
+ [ 0 31  0  0  0  1  0  0]
+ [ 0  0 29  0  1  0  0  2]
+ [ 1  0  1 27  1  0  1  1]
+ [ 1  0  5  2 19  2  3  0]
+ [ 0  0  1  1  3 25  0  2]
+ [ 0  0  1  0  0  1 29  1]
+ [ 0  0  5  1  1  0  1 24]]
+
+Fold 2 Confusion Matrix:
+[[31  0  0  1  0  0  0  0]
+ [ 0 31  1  0  0  0  0  0]
+ [ 2  0 29  0  0  0  0  1]
+ [ 0  0  4 25  0  2  1  0]
+ [ 0  0  2  1 24  3  2  0]
+ [ 0  0  0  2  2 27  1  0]
+ [ 0  0  1  0  0  0 31  0]
+ [ 2  0  1  0  1  1  0 27]]
+
+Fold 3 Confusion Matrix:
+[[29  0  1  1  0  0  0  1]
+ [ 0 31  0  0  1  0  0  0]
+ [ 2  0 29  0  0  0  0  1]
+ [ 0  0  2 30  0  0  0  0]
+ [ 0  1  6  3 18  2  2  0]
+ [ 0  2  0  2  1 26  1  0]
+ [ 0  0  3  1  1  0 27  0]
+ [ 0  0  7  1  0  1  0 23]]
+
+Fold 4 Confusion Matrix:
+[[30  0  2  0  0  0  0  0]
+ [ 0 32  0  0  0  0  0  0]
+ [ 2  0 29  0  0  0  0  1]
+ [ 0  0  2 24  2  3  1  0]
+ [ 0  0  5  1 21  3  2  0]
+ [ 0  3  2  0  1 24  1  1]
+ [ 0  0  0  0  0  1 31  0]
+ [ 2  0  5  0  0  0  0 25]]
+
+Fold 5 Confusion Matrix:
+[[32  0  0  0  0  0  0  0]
+ [ 0 31  0  0  0  1  0  0]
+ [ 0  0 30  0  1  1  0  0]
+ [ 0  0  5 23  0  4  0  0]
+ [ 0  0  7  1 18  5  1  0]
+ [ 0  0  2  1  0 28  1  0]
+ [ 0  0  0  1  0  0 31  0]
+ [ 2  0  7  1  1  0  0 21]]
+
+Aggregated Confusion Matrix:
+[[150   1   6   2   0   0   0   1]
+ [  0 156   1   0   1   2   0   0]
+ [  6   0 146   0   2   1   0   5]
+ [  1   0  14 129   3   9   3   1]
+ [  1   1  25   8 100  15  10   0]
+ [  0   5   5   6   7 130   4   3]
+ [  0   0   5   2   1   2 149   1]
+ [  6   0  25   3   3   2   1 120]]
