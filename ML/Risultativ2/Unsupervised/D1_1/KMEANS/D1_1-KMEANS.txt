@@ -1,0 +1,14 @@
+=== MACHINE LEARNING CLASSIFICATION REPORT ===
+
+Dataset: LBP_8_12_16(D1_1).csv
+Model: KMEANS
+
+Best configuration (most frequent): (('do_pca', True), ('do_scaling', False), ('model_params', (('n_clusters', 8), ('n_init', 10), ('random_state', 42))), ('n_components', 10))
+
+Average Silhouette Score: 0.2990
+
+Fold 1: Silhouette Score = 0.3062
+Fold 2: Silhouette Score = 0.3052
+Fold 3: Silhouette Score = 0.2976
+Fold 4: Silhouette Score = 0.3073
+Fold 5: Silhouette Score = 0.2787
