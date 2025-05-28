@@ -192,17 +192,9 @@ conf_list = ["SVM_D3_1", "SVM_D3_2", "SVM_D4_2", "XGBOOST_D3_1", "XGBOOST_D4_2"]
 #run the crossval for all configuration
 run_crossval_and_save_predictions(conf_list)
 
-preds_df = pd.DataFrame()
 
-#build the csv
-for conf in conf_list:
-    preds = pd.read_csv(f"predictions_{conf}.csv")["predicted_label"]
-    preds_df[conf] = preds
+# Average choice: for every samples we average the predicted class probability and we choose the greatest
 
-
-# Majority voting (for each sample (each leaf) will find the most common predition)
-#final_preds, _ = mode(preds_df.values, axis=1, keepdims=False)
-#final_preds = final_preds.flatten()
 prob_dfs = []
 
 for conf in conf_list:
