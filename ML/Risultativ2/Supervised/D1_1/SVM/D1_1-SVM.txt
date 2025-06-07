@@ -3,7 +3,7 @@
 Dataset: LBP_8_12_16(D1_1).csv
 Model: SVM
 Best configuration:
-  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.1), ('dim_reduction', 'passthrough'), ('feature_selection', 'passthrough'), ('normalization', MinMaxScaler())): 2
+  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.1), ('classifier__kernel', 'poly'), ('dim_reduction', 'passthrough'), ('feature_selection', 'passthrough'), ('normalization', MinMaxScaler())): 2
 Average accuracy: 86.40625%
 Average deviation: 0.6720566614877052%
 Average f1 score: 86.31544669874404%
