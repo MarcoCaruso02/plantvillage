@@ -252,10 +252,12 @@ int main()
 			//No shadow 7th and 10th
 			if (leafPath == "/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_" || leafPath == "/Tomato___Tomato_Yellow_Leaf_Curl_Virus/Yellow_Leaf_Curl_Virus_") {
 				cv::cvtColor(result, result, cv::COLOR_BGR2GRAY);
+				// Ostu ignores the shadows (gray on black)
 				int T_otsu = ucas::getOtsuAutoThreshold(ucas::histogram(result));
 				cv::threshold(result, result, T_otsu, 255, cv::THRESH_BINARY);
 				//if(leafPath == "/Tomato___Spider_mites Two-spotted_spider_mite/Spider_mites_")
-					cv::morphologyEx(result, result, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(13, 13)));
+				// Fill Otsu holes 
+				cv::morphologyEx(result, result, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(13, 13)));
 				//else
 					//cv::morphologyEx(result, result, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(21, 21)));
 
