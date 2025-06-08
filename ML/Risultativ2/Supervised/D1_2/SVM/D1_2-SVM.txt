@@ -3,7 +3,7 @@
 Dataset: LBP_8_12_16_den(D1_2).csv
 Model: SVM
 Best configuration:
-  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.001), ('dim_reduction', 'passthrough'), ('feature_selection', 'passthrough'), ('normalization', StandardScaler())): 1
+  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.001), ('classifier__kernel', 'poly'), ('dim_reduction', 'passthrough'), ('feature_selection', 'passthrough'), ('normalization', StandardScaler())): 1
 Average accuracy: 83.828125%
 Average deviation: 2.0462188833919996%
 Average f1 score: 83.72300053598735%

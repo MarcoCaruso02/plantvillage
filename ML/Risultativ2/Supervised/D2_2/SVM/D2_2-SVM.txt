@@ -3,7 +3,7 @@
 Dataset: LBP_max_GLCM(D2_2).csv
 Model: SVM
 Best configuration:
-  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.1), ('dim_reduction', 'passthrough'), ('feature_selection', SelectKBest()), ('feature_selection__k', 90), ('normalization', MinMaxScaler())): 2
+  (('classifier', SVC()), ('classifier__C', 100), ('classifier__gamma', 0.1), ('classifier__kernel', 'poly'), ('dim_reduction', 'passthrough'), ('feature_selection', SelectKBest()), ('feature_selection__k', 90), ('normalization', MinMaxScaler())): 2
 Average accuracy: 86.953125%
 Average deviation: 1.7222974753944222%
 Average f1 score: 86.81315855757052%
